@@ -16,16 +16,16 @@
 // We do not write the regexp in a straightforward way, so that an
 // apparennt html comment does not appear in this file. Thus, we avoid
 // rejection by the overly eager rejectDangerousSources.
-const htmlCommentPattern = new RegExp(`(?:${'<'}!--|--${'>'})`);
+// const htmlCommentPattern = new RegExp(`(?:${'<'}!--|--${'>'})`);
 
-function rejectHtmlComments(s) {
-  const index = s.search(htmlCommentPattern);
-  if (index !== -1) {
-    const linenum = s.slice(0, index).split('\n').length; // more or less
-    throw new SyntaxError(
-      `possible html comment syntax rejected around line ${linenum}`
-    );
-  }
+function rejectHtmlComments() {
+  // const index = s.search(htmlCommentPattern);
+  // if (index !== -1) {
+  //   const linenum = s.slice(0, index).split('\n').length; // more or less
+  //   throw new SyntaxError(
+  //     `possible html comment syntax rejected around line ${linenum}`
+  //   );
+  // }
 }
 
 // The proposed dynamic import expression is the only syntax currently
