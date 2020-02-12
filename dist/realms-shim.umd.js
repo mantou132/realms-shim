@@ -1405,11 +1405,16 @@
 
     // todo: investigate attacks via Array.species
     // todo: this accepts newShims='string', but it should reject that
-    const { shims: newShims, transforms, sloppyGlobals } = options;
+    const { shims: newShims, transforms, sloppyGlobals, errorHandler } = options;
     const allShims = arrayConcat(parentUnsafeRec.allShims, newShims);
 
     // The unsafe record is created already repaired.
     const unsafeRec = createNewUnsafeRec(allShims);
+
+    const { unsafeGlobal } = unsafeRec;
+    unsafeGlobal.addEventListener('error', err => {
+      if (errorHandler) errorHandler(err);
+    });
 
     // eslint-disable-next-line no-use-before-define
     const Realm = createRealmFacade(unsafeRec, BaseRealm);
