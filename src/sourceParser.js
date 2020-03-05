@@ -50,16 +50,16 @@ function rejectHtmlComments() {
 // something like that from something like importnotreally('power.js') which
 // is perfectly safe.
 
-const importPattern = /\bimport\s*(?:\(|\/[/*])/;
+// const importPattern = /\bimport\s*(?:\(|\/[/*])/;
 
-function rejectImportExpressions(s) {
-  const index = s.search(importPattern);
-  if (index !== -1) {
-    const linenum = s.slice(0, index).split('\n').length; // more or less
-    throw new SyntaxError(
-      `possible import expression rejected around line ${linenum}`
-    );
-  }
+function rejectImportExpressions() {
+  // const index = s.search(importPattern);
+  // if (index !== -1) {
+  //   const linenum = s.slice(0, index).split('\n').length; // more or less
+  //   throw new SyntaxError(
+  //     `possible import expression rejected around line ${linenum}`
+  //   );
+  // }
 }
 
 // The shim cannot correctly emulate a direct eval as explained at

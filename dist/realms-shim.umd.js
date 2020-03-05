@@ -987,40 +987,6 @@
 
   // https://www.ecma-international.org/ecma-262/9.0/index.html#sec-html-like-comments
 
-  // The proposed dynamic import expression is the only syntax currently
-  // proposed, that can appear in non-module JavaScript code, that
-  // enables direct access to the outside world that cannot be
-  // surpressed or intercepted without parsing and rewriting. Instead,
-  // this shim conservatively rejects any source text that seems to
-  // contain such an expression. To do this safely without parsing, we
-  // must also reject some valid programs, i.e., those containing
-  // apparent import expressions in literal strings or comments.
-
-  // The current conservative rule looks for the identifier "import"
-  // followed by either an open paren or something that looks like the
-  // beginning of a comment. We assume that we do not need to worry
-  // about html comment syntax because that was already rejected by
-  // rejectHtmlComments.
-
-  // this \s *must* match all kinds of syntax-defined whitespace. If e.g.
-  // U+2028 (LINE SEPARATOR) or U+2029 (PARAGRAPH SEPARATOR) is treated as
-  // whitespace by the parser, but not matched by /\s/, then this would admit
-  // an attack like: import\u2028('power.js') . We're trying to distinguish
-  // something like that from something like importnotreally('power.js') which
-  // is perfectly safe.
-
-  const importPattern = /\bimport\s*(?:\(|\/[/*])/;
-
-  function rejectImportExpressions(s) {
-    const index = s.search(importPattern);
-    if (index !== -1) {
-      const linenum = s.slice(0, index).split('\n').length; // more or less
-      throw new SyntaxError(
-        `possible import expression rejected around line ${linenum}`
-      );
-    }
-  }
-
   // The shim cannot correctly emulate a direct eval as explained at
   // https://github.com/Agoric/realms-shim/issues/12
   // Without rejecting apparent direct eval syntax, we would
@@ -1051,7 +1017,6 @@
   }
 
   function rejectDangerousSources(s) {
-    rejectImportExpressions(s);
     rejectSomeDirectEvalExpressions(s);
   }
 
